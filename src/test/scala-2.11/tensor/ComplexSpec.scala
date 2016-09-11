@@ -1,3 +1,5 @@
+package tensor
+
 import org.specs2.Specification
 
 /**
@@ -6,25 +8,25 @@ import org.specs2.Specification
 class ComplexSpec extends Specification{ def is = s2"""
 
   //test toString
-  Complex(0, 0)   should show '0'     $show0
-  Complex(x, 0)   should show 'x'     $showOnlyRe
-  Complex(0, y)   should show 'yi'    $showOnlyIm
-  Complex(0, 1)   should show 'i'     $showI
-  Complex(0, -1)  should show '-i'    $showMinusI
-  Complex(x, 1)   should show 'x+i'   $showRePlusI
-  Complex(x, -1)  should show 'x-i'   $showReMinusI
-  Complex(x, y>0) should show 'x+yi'  $showRePlusIm
-  Complex(x, y<0) should shouw 'x-yi' $showReMinusIm
+  tensor.Complex(0, 0)   should show '0'     $show0
+  tensor.Complex(x, 0)   should show 'x'     $showOnlyRe
+  tensor.Complex(0, y)   should show 'yi'    $showOnlyIm
+  tensor.Complex(0, 1)   should show 'i'     $showI
+  tensor.Complex(0, -1)  should show '-i'    $showMinusI
+  tensor.Complex(x, 1)   should show 'x+i'   $showRePlusI
+  tensor.Complex(x, -1)  should show 'x-i'   $showReMinusI
+  tensor.Complex(x, y>0) should show 'x+yi'  $showRePlusIm
+  tensor.Complex(x, y<0) should shouw 'x-yi' $showReMinusIm
 
   //test sub constructor
-  'x'             should construct Complex(x, 0)    $x
-  'yi'            should construct Complex(0, y)    $yi
-  'i'             should construct Complex(0, 1)    $i
-  '-i'            should construct Complex(0, -1)   $minusI
-  'x+i'           should construct Complex(x, i)    $xPlusI
-  'x-i'           should construct Complex(x, -1)   $xMinusI
-  'x+yi'          should construct Complex(x, y)    $xPlusYi
-  'x-yi'          should construct Complex(x, -y)   $xMinusYi
+  'x'             should construct tensor.Complex(x, 0)    $x
+  'yi'            should construct tensor.Complex(0, y)    $yi
+  'i'             should construct tensor.Complex(0, 1)    $i
+  '-i'            should construct tensor.Complex(0, -1)   $minusI
+  'x+i'           should construct tensor.Complex(x, i)    $xPlusI
+  'x-i'           should construct tensor.Complex(x, -1)   $xMinusI
+  'x+yi'          should construct tensor.Complex(x, y)    $xPlusYi
+  'x-yi'          should construct tensor.Complex(x, -y)   $xMinusYi
   invalid string  should raise a runtime Exception  $constructError
 
   """
