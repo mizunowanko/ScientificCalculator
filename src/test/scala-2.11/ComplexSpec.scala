@@ -4,46 +4,50 @@ import org.specs2.Specification
   * Created by mizuwan on 2016/09/10.
   */
 class ComplexSpec extends Specification{ def is = s2"""
-  toString should return 0 if re and im is 0              $show0
 
-  toString should return only re if im is 0               $showOnlyRe
+  //test toString
+  Complex(0, 0)   should show '0'     $show0
+  Complex(x, 0)   should show 'x'     $showOnlyRe
+  Complex(0, y)   should show 'yi'    $showOnlyIm
+  Complex(0, 1)   should show 'i'     $showI
+  Complex(0, -1)  should show '-i'    $showMinusI
+  Complex(x, 1)   should show 'x+i'   $showRePlusI
+  Complex(x, -1)  should show 'x-i'   $showReMinusI
+  Complex(x, y>0) should show 'x+yi'  $showRePlusIm
+  Complex(x, y<0) should shouw 'x-yi' $showReMinusIm
 
-  toString should return only im if re is 0               $showOnlyIm
+  //test sub constructor
+  'x'             should construct Complex(x, 0)    $x
+  'yi'            should construct Complex(0, y)    $yi
+  'i'             should construct Complex(0, 1)    $i
+  '-i'            should construct Complex(0, -1)   $minusI
+  'x+i'           should construct Complex(x, i)    $xPlusI
+  'x-i'           should construct Complex(x, -1)   $xMinusI
+  'x+yi'          should construct Complex(x, y)    $xPlusYi
+  'x-yi'          should construct Complex(x, -y)   $xMinusYi
+  invalid string  should raise a runtime Exception  $constructError
 
-  toString should return i if re is 0 and im is 1         $showI
-
-  toString should return re + i if re is not 0 and i = 0  $showReAndI
-
-  toString should return re + im if neither is 0          $showReAndIm
   """
 
-  def show0 = {
-    val zero = Complex(0, 0)
-    zero.toString must_== "0"
-  }
+  //test toString
+  def show0         = Complex(0, 0).toString    must_== "0"
+  def showOnlyRe    = Complex(1, 0).toString    must_== "1"
+  def showOnlyIm    = Complex(0, 2).toString    must_== "2i"
+  def showI         = Complex(0, 1).toString    must_== "i"
+  def showMinusI    = Complex(0, -1).toString   must_== "-i"
+  def showRePlusI   = Complex(1, 1).toString    must_== "1+i"
+  def showReMinusI  = Complex(1, -1).toString   must_== "1-i"
+  def showRePlusIm  = Complex(1, 2).toString    must_== "1+2i"
+  def showReMinusIm = Complex(1, -2).toString   must_== "1-2i"
 
-  def showOnlyRe = {
-    val realNumber = Complex(1, 0)
-    realNumber.toString must_== "1"
-  }
-
-  def showOnlyIm = {
-    val pureImaginaryNumber = Complex(0, 2)
-    pureImaginaryNumber.toString must_== "2i"
-  }
-
-  def showI = {
-    val i = Complex(0, 1)
-    i.toString must_== "i"
-  }
-
-  def showReAndI = {
-    val complexWithI = Complex(1, 1)
-    complexWithI.toString must_== "1+i"
-  }
-
-  def showReAndIm = {
-    val complex = Complex(1, 2)
-    complex.toString must_== "1+2i"
-  }
+  //test sub constructor
+  def x               = new Complex("2")    must_== Complex(2, 0)
+  def yi              = new Complex("2i")   must_== Complex(0, 2)
+  def i               = new Complex("i")    must_== Complex(0, 1)
+  def minusI          = new Complex("-i")   must_== Complex(0, -1)
+  def xPlusI          = new Complex("2+i")  must_== Complex(2, 1)
+  def xMinusI         = new Complex("2-i")  must_== Complex(2, -1)
+  def xPlusYi         = new Complex("1+2i") must_== Complex(1, 2)
+  def xMinusYi        = new Complex("1-2i") must_== Complex(1, -2)
+  def constructError  = new Complex("1++i") must throwA[RuntimeException]
 }
