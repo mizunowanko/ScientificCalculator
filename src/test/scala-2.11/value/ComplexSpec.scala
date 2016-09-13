@@ -1,4 +1,4 @@
-package tensor
+package value
 
 import org.specs2.Specification
 

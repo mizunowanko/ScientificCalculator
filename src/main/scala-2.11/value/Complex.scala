@@ -1,4 +1,4 @@
-package tensor
+package value
 
 /**
   * Created by mizuwan on 2016/09/10.
@@ -7,7 +7,7 @@ package tensor
 import scala.language.implicitConversions
 
 //class that indicates complex
-case class Complex(_re: Double, _im: Double){
+case class Complex(_re: Double, _im: Double) extends Value{
 
   //real part
   val re: Double = _re
