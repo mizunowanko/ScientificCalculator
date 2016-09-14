@@ -6,20 +6,27 @@ import value.Value
   * Created by mizuwan on 2016/09/11.
   */
 
-//
-trait Expression{
+//expression tree
+trait ExpressionTree{
 
-  //expression String
+  //the expression String
   val str: String
 
-  //return value
+  //the type of the evaluator
+  type EvaluatorType
+
+  //the function to evaluate itself
+  val evaluator: EvaluatorType
+
+  //return its value
   def evaluate: Value
 }
 
-object Expression {
+//
+object ExpressionTree{
 
   //expression factory
-  def apply(str: String): Expression = {
+  def apply(str: String): ExpressionTree = {
 
     //define all regex types
     val re  = """^(-?\d(\.\d)*)$""".r
@@ -35,44 +42,20 @@ object Expression {
     }
   }
 }
-/*
-case class Expandable(_str: String) extends Expression{
 
-  val str: String = _str
-
-  def evaluate: Value
-
-  //private def expand: UnExpandable
-}
-*/
-//the component that consists the expression like operators and operands
-trait UnExpandable extends Expression{
-
-  //the type of evaluator
-  type FunctionN
-
-  //string expression
-  val str: String
-
-  //the function this.evaluate uses
-  val evaluator: FunctionN
-
-  //return its value
-  def evaluate: Value
-}
 
 //the expression that is operated by operators
 //It's expressed as Function0
-case class Operand(_str: String) extends UnExpandable{
+case class Operand(_str: String) extends ExpressionTree{
 
   //the type of evaluator
-  override type FunctionN = ()=> Value
+  override type EvaluatorType = ()=> Value
 
   //string expression
   val str: String = _str
 
   //returns complex
-  override val evaluator: FunctionN = {() => Value(str)}
+  override val evaluator: EvaluatorType = {() => Value(str)}
 
   //returns value
   override def evaluate: Value = evaluator()
