@@ -15,11 +15,6 @@ case class Complex(_re: Double, _im: Double) extends Value{
   //imaginary part
   val im: Double = _im
 
-  //construct from string
-  def this(str: String) = {
-    this(Complex.complexStrToTuple(str)._1, Complex.complexStrToTuple(str)._2)
-  }
-
   //override toString
   override def toString: String = {
     this match {
@@ -55,8 +50,12 @@ case class Complex(_re: Double, _im: Double) extends Value{
 
 object Complex{
 
+  def apply(str: String): Complex = Complex(complexStrToTuple(str)._1, complexStrToTuple(str)._2)
+
+  def add(left: Complex)(right: Complex)(implicit abelianComplex: AbelianGroup[Complex]): Complex = abelianComplex.add(left)(right)
+
   //convert a string expressing complex to tuple (re, im)
-  def complexStrToTuple(str: String): (Double, Double) = {
+  private def complexStrToTuple(str: String): (Double, Double) = {
 
     //define all patterns of regular expressions
     val re        = """^(-?\d(\.\d)*)$""".r
@@ -81,4 +80,26 @@ object Complex{
       case _                      => sys.error("the string does not match any complex expression")
     }
   }
+  /*
+  //add two complexes
+
+
+  def subtract(left: Complex, right: Complex): Complex = {
+    val Complex(a, b) = left
+    val Complex(c, d) = right
+    return Complex(a - c, b - d)
+  }
+
+  def multiply(left: Complex, right: Complex): Complex = {
+    val Complex(a, b) = left
+    val Complex(c, d) = right
+    return Complex(a * c - b * d, a * d + b * c)
+  }
+
+  def divide(left: Complex, right: Complex): Complex = {
+    val Complex(a, b) = left
+    val Complex(c, d) = right
+    return Complex((a * c + b * d)/(a * a + b * b), (a * d - b * c)/(a * a + b * b))
+  }
+  */
 }
