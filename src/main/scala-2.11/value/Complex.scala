@@ -44,8 +44,6 @@ case class Complex(_re: Double, _im: Double) extends Value{
       case None       => d.toString
     }
   }
-
-
 }
 
 object Complex{

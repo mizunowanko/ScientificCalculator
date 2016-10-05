@@ -21,15 +21,29 @@ object ParenthesisParser{
     val endsWithOne = depthList.last == 1
     val noZero = depthList.filter(x => x == 0) == Nil
     val startsAndEndsWithParenthesis = ("""^\(.*\)$""".r findFirstIn str).isDefined
-    return endsWithOne && noZero && startsAndEndsWithParenthesis
+    endsWithOne && noZero && startsAndEndsWithParenthesis
+  }
+
+  def inAParenthesis(str: String): Boolean = {
+    val depthList = getDepthList(str)
+    val allOne = depthList.filter(x => x == 1).length == depthList.length
+    val startsAndEndsWithParenthesis = ("""^\(.*\)$""".r findFirstIn str).isDefined
+    allOne && startsAndEndsWithParenthesis
   }
 
   def removeOuterParenthesis(str: String): String = {
-    val withinParenthesis = """^\((.*)\)$""".r
-    str match {
-      case withinParenthesis(x) => x
-      case _ => str
+    if (inParenthesis(str)){
+      val withinParenthesis = """^\((.*)\)$""".r
+      str match {
+        case withinParenthesis(x) => x
+      }
+    }else{
+      str
     }
+  }
+
+  def hasParenthesis(str: String): Boolean ={
+    ("""(\(|\))""".r findFirstIn str).isDefined
   }
 
   /** convert string to list of depth calculated by the parentheses */
